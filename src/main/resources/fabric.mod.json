@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "create_connected",
-  "version": "${mod_version}",
+  "version": "${version}",
   "name": "Create: Connected [Fabric]",
   "description": "Quality-of-life blocks that you wish existed in Create.",
   "authors": [
