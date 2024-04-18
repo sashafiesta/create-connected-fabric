@@ -1,0 +1,14 @@
+{
+  "values": [
+    "create_connected:encased_chain_cogwheel",
+    "create_connected:parallel_gearbox",
+    "create_connected:six_way_gearbox",
+    "create_connected:overstress_clutch",
+    "create_connected:inverted_clutch",
+    "create_connected:inverted_gearshift",
+    "create_connected:centrifugal_clutch",
+    "create_connected:freewheel_clutch",
+    "create_connected:brass_gearbox",
+    "create_connected:brake"
+  ]
+}

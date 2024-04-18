@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "create:clutch"
+        }
+    ],
+    "result": {
+        "item": "create_connected:inverted_clutch"
+    }
+}

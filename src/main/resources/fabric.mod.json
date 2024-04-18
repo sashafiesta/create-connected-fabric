@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "create_connected",
+  "version": "${mod_version}",
+  "name": "Create: Connected [Fabric]",
+  "description": "Quality-of-life blocks that you wish existed in Create.",
+  "authors": [
+    "Lysine",
+	"sashafiesta"
+  ],
+  "contact": {
+    "sources": "https://github.com/sashafiesta/create-connected-fabric"
+  },
+  "license": "AGPL-3.0",
+  "icon": "assets/create_connected/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.hlysine.create_connected.CreateConnected"
+    ],
+    "client": [
+      "com.hlysine.create_connected.CreateConnectedClient"
+    ]
+  },
+  "mixins": [
+    "create_connected.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "create": ">=${create_version}",
+    "minecraft": "${minecraft_version}"
+  },
+  "accessWidener" : "create_connected.accesswidener"
+}

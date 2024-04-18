@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "b": {
+            "item": "create:brass_ingot"
+        },
+        "i": {
+            "item": "minecraft:iron_bars"
+        }
+    },
+    "pattern": [
+        "bib",
+        "i i",
+        "bib"
+    ],
+    "result": {
+        "item": "create_connected:empty_fan_catalyst"
+    },
+    "show_notification": true
+}

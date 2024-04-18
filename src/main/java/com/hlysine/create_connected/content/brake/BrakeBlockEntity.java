@@ -1,0 +1,81 @@
+package com.hlysine.create_connected.content.brake;
+
+import com.hlysine.create_connected.CCBlocks;
+import com.simibubi.create.content.kinetics.BlockStressValues;
+import com.simibubi.create.content.kinetics.transmission.SplitShaftBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
+
+import static com.hlysine.create_connected.content.brake.BrakeBlock.POWERED;
+
+public class BrakeBlockEntity extends SplitShaftBlockEntity {
+
+    private static final int TICK_INTERVAL = 3;
+    private static final float MIN_ADVANCEMENT_SPEED = 8;
+    private int tickTimer = 0;
+    private boolean advancementAwarded = false;
+
+
+    public BrakeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
+    @Override
+    public float getRotationSpeedModifier(Direction face) {
+        return 1;
+    }
+
+    @Override
+    public float calculateStressApplied() {
+        if (!getBlockState().getValue(POWERED)) {
+            return super.calculateStressApplied();
+        } else {
+            float impact = 32768; //fixme
+			//float impact = CCConfigs.server().brakeActiveStress.getF();
+            this.lastStressApplied = impact;
+            return impact;
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (tickTimer-- < 0) {
+            tickTimer = TICK_INTERVAL;
+
+			double unpoweredStress = 0; //fixme
+            //double unpoweredStress = BlockStressValues.getImpact(CCBlocks.BRAKE.get());
+			double poweredStress = 32768; //fixme
+            //double poweredStress = CCConfigs.server().brakeActiveStress.get();
+            boolean isBraking = getBlockState().getValue(POWERED) == (poweredStress >= unpoweredStress);
+            if (unpoweredStress == poweredStress) {
+                isBraking = unpoweredStress > 0;
+            }
+            float absSpeed = Mth.abs(getSpeed());
+            if (level.isClientSide()) {
+                if (isBraking && absSpeed > 0) {
+                    Vec3 loc = Vec3.atBottomCenterOf(getBlockPos());
+                    level.addParticle(ParticleTypes.LARGE_SMOKE, false, loc.x, loc.y + 0.5, loc.z, 0, 0.05, 0);
+                }
+            } else {
+                if (isBraking && absSpeed > MIN_ADVANCEMENT_SPEED && !advancementAwarded) {
+                } else if (!isBraking) {
+                }
+            }
+        }
+    }
+
+    @Override
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+        super.addBehaviours(behaviours);
+    }
+}

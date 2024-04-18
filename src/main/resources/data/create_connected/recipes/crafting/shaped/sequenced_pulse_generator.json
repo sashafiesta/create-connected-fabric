@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "B": {
+            "item": "create:brass_sheet"
+        },
+        "C": {
+            "item": "create:precision_mechanism"
+        },
+        "E": {
+            "item": "create:electron_tube"
+        },
+        "S": {
+            "tag": "forge:stone"
+        },
+        "T": {
+            "item": "minecraft:redstone_torch"
+        }
+    },
+    "pattern": [
+        "EC ",
+        "EBT",
+        "SSS"
+    ],
+    "result": {
+        "item": "create_connected:sequenced_pulse_generator"
+    },
+    "show_notification": true
+}
