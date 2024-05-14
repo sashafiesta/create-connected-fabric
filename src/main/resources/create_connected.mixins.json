@@ -7,8 +7,7 @@
 	"linkedtransmitter.AnalogLeverBlockEntityAccessor",
     "linkedtransmitter.AnalogLeverBlockMixin",
     "linkedtransmitter.ButtonBlockAccessor",
-    "chaincogwheel.RotationPropagatorMixin",
-	"ItemUseOverridesMixin"
+    "chaincogwheel.RotationPropagatorMixin"
   ],
   "client": [
   ],
