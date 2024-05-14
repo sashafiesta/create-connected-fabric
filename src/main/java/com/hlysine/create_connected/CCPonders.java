@@ -17,8 +17,8 @@ public class CCPonders {
     static final PonderRegistrationHelper HELPER = new PonderRegistrationHelper(CreateConnected.ID);
 
     public static void register() {
-        HELPER.forComponents(CCBlocks.ENCASED_CHAIN_COGWHEEL)
-                .addStoryBoard("chain_cogwheel", ChainCogwheelScenes::chainCogwheelAsRelay, AllPonderTags.KINETIC_RELAYS);
+        //HELPER.forComponents(CCBlocks.ENCASED_CHAIN_COGWHEEL)
+        //        .addStoryBoard("chain_cogwheel", ChainCogwheelScenes::chainCogwheelAsRelay, AllPonderTags.KINETIC_RELAYS);
         HELPER.forComponents(CCBlocks.INVERTED_CLUTCH)
                 .addStoryBoard("inverted_clutch", InvertedClutchScenes::invertedClutch, AllPonderTags.KINETIC_RELAYS);
         HELPER.forComponents(CCBlocks.INVERTED_GEARSHIFT)
@@ -27,16 +27,16 @@ public class CCPonders {
                 .addStoryBoard("parallel_gearbox", ParallelGearboxScenes::parallelGearbox, AllPonderTags.KINETIC_RELAYS);
         HELPER.forComponents(CCBlocks.SEQUENCED_PULSE_GENERATOR)
                 .addStoryBoard("sequenced_pulse_generator", SequencedPulseGeneratorScenes::pulseGenerator, AllPonderTags.REDSTONE);
-        HELPER.forComponents(CCItems.LINKED_TRANSMITTER)
-                .addStoryBoard("linked_transmitter", LinkedTransmitterScenes::linkedTransmitter, AllPonderTags.REDSTONE);
+        //HELPER.forComponents(CCItems.LINKED_TRANSMITTER)
+        //        .addStoryBoard("linked_transmitter", LinkedTransmitterScenes::linkedTransmitter, AllPonderTags.REDSTONE);
 
         PonderRegistry.TAGS.forTag(AllPonderTags.KINETIC_RELAYS)
-                .add(CCBlocks.ENCASED_CHAIN_COGWHEEL)
+                //.add(CCBlocks.ENCASED_CHAIN_COGWHEEL)
                 .add(CCBlocks.INVERTED_CLUTCH)
                 .add(CCBlocks.INVERTED_GEARSHIFT)
                 .add(CCBlocks.PARALLEL_GEARBOX);
         PonderRegistry.TAGS.forTag(AllPonderTags.REDSTONE)
                 .add(CCBlocks.SEQUENCED_PULSE_GENERATOR)
-                .add(CCItems.LINKED_TRANSMITTER);
+                ;//.add(CCItems.LINKED_TRANSMITTER);
     }
 }

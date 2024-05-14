@@ -53,13 +53,13 @@ import com.hlysine.create_connected.content.sixwaygearbox.SixWayGearboxBlock;
 import com.hlysine.create_connected.content.brake.BrakeBlock;
 import com.hlysine.create_connected.content.brassgearbox.BrassGearboxBlock;
 import com.hlysine.create_connected.content.centrifugalclutch.CentrifugalClutchBlock;
-import com.hlysine.create_connected.content.chaincogwheel.ChainCogwheelBlock;
+//import com.hlysine.create_connected.content.chaincogwheel.ChainCogwheelBlock;
 import com.hlysine.create_connected.content.freewheelclutch.FreewheelClutchBlock;
 import com.hlysine.create_connected.content.overstressclutch.OverstressClutchBlock;
 import com.hlysine.create_connected.content.parallelgearbox.ParallelGearboxBlock;
 import com.hlysine.create_connected.content.shearpin.ShearPinBlock;
 import com.hlysine.create_connected.content.sequencedpulsegenerator.SequencedPulseGeneratorBlock;
-import com.hlysine.create_connected.content.linkedtransmitter.*;
+//import com.hlysine.create_connected.content.linkedtransmitter.*;
 import com.hlysine.create_connected.content.WrenchableBlock;
 
 import com.simibubi.create.AllBlocks;
@@ -259,7 +259,7 @@ public class CCBlocks {
                     .register();
 
 ////////////////////////////////////////////////////////////////
-    
+    /*
 	public static final Map<BlockSetType, BlockEntry<LinkedButtonBlock>> LINKED_BUTTONS = new HashMap<>();
 	
     static {
@@ -297,7 +297,7 @@ public class CCBlocks {
             .onRegister(PreciseItemUseOverrides::addBlock)
             //.blockstate(CCBlockStateGen.linkedLever(Create.asResource("block/analog_lever/block"),Create.asResource("block/analog_lever/block")))
             .register();
-
+	*/
     public static final BlockEntry<WrenchableBlock> EMPTY_FAN_CATALYST = REGISTRATE.block("empty_fan_catalyst", WrenchableBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p

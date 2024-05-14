@@ -22,10 +22,9 @@ import com.hlysine.create_connected.content.parallelgearbox.ParallelGearboxInsta
 import com.hlysine.create_connected.content.parallelgearbox.ParallelGearboxRenderer;
 import com.hlysine.create_connected.content.shearpin.ShearPinBlockEntity;
 import com.hlysine.create_connected.content.sequencedpulsegenerator.SequencedPulseGeneratorBlockEntity;
-import com.hlysine.create_connected.content.linkedtransmitter.LinkedAnalogLeverBlockEntity;
-import com.hlysine.create_connected.content.linkedtransmitter.LinkedAnalogLeverRenderer;
-import com.hlysine.create_connected.content.linkedtransmitter.LinkedTransmitterBlockEntity;
-
+//import com.hlysine.create_connected.content.linkedtransmitter.LinkedAnalogLeverBlockEntity;
+//import com.hlysine.create_connected.content.linkedtransmitter.LinkedAnalogLeverRenderer;
+//import com.hlysine.create_connected.content.linkedtransmitter.LinkedTransmitterBlockEntity;
 import static com.hlysine.create_connected.CreateConnected.REGISTRATE;
 
 import com.simibubi.create.content.decoration.copycat.CopycatBlockEntity;
@@ -120,6 +119,7 @@ public class CCBlockEntityTypes {
             .validBlocks(CCBlocks.SEQUENCED_PULSE_GENERATOR)
             .register();
 
+	/*
     public static final BlockEntityEntry<LinkedTransmitterBlockEntity> LINKED_TRANSMITTER = REGISTRATE
             .blockEntity("linked_transmitter", LinkedTransmitterBlockEntity::new)
             .transform(b -> {CCBlocks.LINKED_BUTTONS.values().forEach(b::validBlock);return b;})
@@ -133,7 +133,7 @@ public class CCBlockEntityTypes {
             .validBlocks(CCBlocks.LINKED_ANALOG_LEVER)
             .renderer(() -> LinkedAnalogLeverRenderer::new)
             .register();
-
+	*/
 	public static void register() {}
 
 }
