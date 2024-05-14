@@ -23,7 +23,7 @@ Port status:
 +-------------------------+---------------------------------------------------------+
 |Sequenced Pulse Generator|              Implemented, recipe changed                |
 +-------------------------+---------------------------------------------------------+
-|    Linked Transmitter   |           Implemented, rendering bug exists             |
+|    Linked Transmitter   |            Implemented, completely bugged               |
 +-------------------------+---------------------------------------------------------+
 |S. Gearshift instructions|                   Not implemented                       |
 +-------------------------+---------------------------------------------------------+
