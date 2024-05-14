@@ -147,6 +147,8 @@ public class CCBlocks {
             .transform(customItemModel())
             .register();
 
+	/*
+	//completely bugged
     public static final BlockEntry<ChainCogwheelBlock> ENCASED_CHAIN_COGWHEEL =
             REGISTRATE.block("encased_chain_cogwheel", ChainCogwheelBlock::new)
                     .initialProperties(SharedProperties::stone)
@@ -159,6 +161,8 @@ public class CCBlocks {
                     .item()
                     .transform(customItemModel())
                     .register();
+	*/
+	
     public static final BlockEntry<FreewheelClutchBlock> FREEWHEEL_CLUTCH = REGISTRATE.block("freewheel_clutch", FreewheelClutchBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.noOcclusion().mapColor(MapColor.PODZOL))
@@ -393,7 +397,7 @@ public class CCBlocks {
 			content.accept(BRAKE);
 			content.accept(BRASS_GEARBOX);
 			content.accept(CENTRIFUGAL_CLUTCH);
-			content.accept(ENCASED_CHAIN_COGWHEEL);
+			//content.accept(ENCASED_CHAIN_COGWHEEL);
 			content.accept(FREEWHEEL_CLUTCH);
 			content.accept(INVERTED_CLUTCH);
 			content.accept(INVERTED_GEARSHIFT);

@@ -99,17 +99,20 @@ public class CCItems {
                     //.transform(FeatureToggle.registerDependent(CCBlocks.PARALLEL_GEARBOX))
                     .register();
 
+	/*
+	//completely bugged
     public static final ItemEntry<LinkedTransmitterItem> LINKED_TRANSMITTER =
             REGISTRATE.item("linked_transmitter", LinkedTransmitterItem::new)
                     .model(AssetLookup.customGenericItemModel("linked_transmitter", "item"))
                     //.transform(FeatureToggle.register())
                     .register();
+	*/
 	static {
 		ItemGroupEvents.modifyEntriesEvent(CCCreativeTabs.MAIN.key()).register(content -> {
 			content.accept(VERTICAL_SIX_WAY_GEARBOX);
 			content.accept(VERTICAL_BRASS_GEARBOX);
 			content.accept(VERTICAL_PARALLEL_GEARBOX);
-			content.accept(LINKED_TRANSMITTER);
+			//content.accept(LINKED_TRANSMITTER);
 		});
 	}
     public static void register() {

@@ -6,8 +6,7 @@
   "mixins": [
 	"linkedtransmitter.AnalogLeverBlockEntityAccessor",
     "linkedtransmitter.AnalogLeverBlockMixin",
-    "linkedtransmitter.ButtonBlockAccessor",
-    "chaincogwheel.RotationPropagatorMixin"
+    "linkedtransmitter.ButtonBlockAccessor"
   ],
   "client": [
   ],

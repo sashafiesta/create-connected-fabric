@@ -68,13 +68,17 @@ public class CCBlockEntityTypes {
             .validBlocks(CCBlocks.CENTRIFUGAL_CLUTCH)
             .renderer(() -> SplitShaftRenderer::new)
             .register();
-					
+	
+	/*
+	//completely bugged
     public static final BlockEntityEntry<SimpleKineticBlockEntity> ENCASED_CHAIN_COGWHEEL = REGISTRATE
             .blockEntity("encased_chain_cogwheel", SimpleKineticBlockEntity::new)
             .instance(() -> EncasedCogInstance::small, false)
             .validBlocks(CCBlocks.ENCASED_CHAIN_COGWHEEL)
             .renderer(() -> EncasedCogRenderer::small)
             .register();
+	*/
+	
     public static final BlockEntityEntry<FreewheelClutchBlockEntity> FREEWHEEL_CLUTCH = REGISTRATE
             .blockEntity("freewheel_clutch", FreewheelClutchBlockEntity::new)
             .instance(() -> SplitShaftInstance::new, false)
