@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "create_connected:encased_chain_cogwheel",
     "create_connected:parallel_gearbox",
     "create_connected:six_way_gearbox",
     "create_connected:overstress_clutch",
@@ -16,7 +15,6 @@
     "create_connected:fan_blasting_catalyst",
     "create_connected:fan_smoking_catalyst",
     "create_connected:fan_splashing_catalyst",
-    "create_connected:fan_haunting_catalyst",
-    "create_connected:item_silo"
+    "create_connected:fan_haunting_catalyst"
   ]
 }
