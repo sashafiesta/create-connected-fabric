@@ -1,0 +1,93 @@
+package com.hlysine.create_connected.datagen.recipes;
+
+import com.hlysine.create_connected.CCBlocks;
+import com.hlysine.create_connected.CreateConnected;
+import com.hlysine.create_connected.compat.Mods;
+import com.simibubi.create.AllItems;
+import com.simibubi.create.AllRecipeTypes;
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
+
+import java.util.List;
+import java.util.function.Supplier;
+
+@SuppressWarnings("unused")
+public class ItemApplicationRecipeGen extends com.simibubi.create.api.data.recipe.ItemApplicationRecipeGen {
+
+    GeneratedRecipe BLASTING_CATALYST = fanCatalystFromEmpty(
+            "blasting_catalyst", Items.LAVA_BUCKET, CCBlocks.FAN_BLASTING_CATALYST::asItem);
+    GeneratedRecipe SMOKING_CATALYST = fanCatalystFromEmpty(
+            "smoking_catalyst", Items.NETHERRACK, CCBlocks.FAN_SMOKING_CATALYST::asItem);
+    GeneratedRecipe SPLASHING_CATALYST = fanCatalystFromEmpty(
+            "splashing_catalyst", Items.WATER_BUCKET, CCBlocks.FAN_SPLASHING_CATALYST::asItem);
+    GeneratedRecipe HAUNTING_CATALYST = fanCatalystFromEmpty(
+            "haunting_catalyst", Items.SOUL_SAND, CCBlocks.FAN_HAUNTING_CATALYST::asItem);
+    GeneratedRecipe FREEZING_CATALYST = fanCatalystFromEmpty(
+            "freezing_catalyst", Items.POWDER_SNOW_BUCKET, CCBlocks.FAN_FREEZING_CATALYST::asItem,
+            DefaultResourceConditions.anyModLoaded(
+                    Mods.DREAMS_DESIRES.id(),
+                    Mods.HENRY.id(),
+                    Mods.GARNISHED.id(),
+                    Mods.DRAGONS_PLUS.id()
+            ));
+    GeneratedRecipe SEETHING_CATALYST = fanCatalystFromEmpty(
+            "seething_catalyst", AllItems.BLAZE_CAKE, CCBlocks.FAN_SEETHING_CATALYST::asItem,
+            DefaultResourceConditions.anyModLoaded(
+                    Mods.DREAMS_DESIRES.id(),
+                    Mods.HENRY.id()
+            ));
+    GeneratedRecipe SANDING_CATALYST = fanCatalystFromEmpty(
+            "sanding_catalyst", Blocks.SAND, CCBlocks.FAN_SANDING_CATALYST::asItem,
+            DefaultResourceConditions.anyModLoaded(
+                    Mods.DREAMS_DESIRES.id(),
+                    Mods.HENRY.id(),
+                    Mods.DRAGONS_PLUS.id()
+            ));
+    GeneratedRecipe ENRICHED_CATALYST = fanCatalystFromEmpty(
+            "enriched_catalyst", new SimpleDatagenIngredient(Mods.NUCLEAR, "enriched_soul_soil"), CCBlocks.FAN_ENRICHED_CATALYST::asItem,
+            DefaultResourceConditions.allModsLoaded(Mods.NUCLEAR.id()));
+    GeneratedRecipe ENDING_CATALYST_DRAGONS_BREATH = fanCatalystFromEmpty(
+            "ending_catalyst_dragons_breath", new SimpleDatagenIngredient(Mods.DRAGONS_PLUS, "dragon_breath_bucket"), CCBlocks.FAN_ENDING_CATALYST_DRAGONS_BREATH::asItem,
+            DefaultResourceConditions.allModsLoaded(Mods.DRAGONS_PLUS.id()));
+    GeneratedRecipe ENDING_CATALYST_DRAGON_HEAD = fanCatalystFromEmpty(
+            "ending_catalyst_dragon_head", Blocks.DRAGON_HEAD, CCBlocks.FAN_ENDING_CATALYST_DRAGON_HEAD::asItem,
+            DefaultResourceConditions.anyModLoaded(
+                    Mods.DRAGONS_PLUS.id(),
+                    Mods.HENRY.id()
+            ));
+    GeneratedRecipe WITHERING_CATALYST = fanCatalystFromEmpty(
+            "withering_catalyst", Items.WITHER_ROSE, CCBlocks.FAN_WITHERING_CATALYST::asItem,
+            DefaultResourceConditions.allModsLoaded(Mods.HENRY.id()));
+
+    protected GeneratedRecipe fanCatalystFromEmpty(String type, ItemLike ingredient, Supplier<ItemLike> output) {
+        return fanCatalystFromEmpty(type, Ingredient.of(ingredient), output);
+    }
+
+    protected GeneratedRecipe fanCatalystFromEmpty(String type, ItemLike ingredient, Supplier<ItemLike> output, ConditionJsonProvider condition) {
+        return fanCatalystFromEmpty(type, Ingredient.of(ingredient), output, condition);
+    }
+
+    protected GeneratedRecipe fanCatalystFromEmpty(String type, Ingredient ingredient, Supplier<ItemLike> output) {
+        return create(type + "_from_empty", b -> b.require(CCBlocks.EMPTY_FAN_CATALYST)
+                .require(ingredient)
+                .withCondition(new FeatureEnabledCondition(CCBlocks.EMPTY_FAN_CATALYST.getId()))
+                .output(output.get()));
+    }
+
+    protected GeneratedRecipe fanCatalystFromEmpty(String type, Ingredient ingredient, Supplier<ItemLike> output, ConditionJsonProvider condition) {
+        return create(type + "_from_empty", b -> b.require(CCBlocks.EMPTY_FAN_CATALYST)
+                .require(ingredient)
+                .withCondition(new FeatureEnabledCondition(CCBlocks.EMPTY_FAN_CATALYST.getId()))
+                .withCondition(condition)
+                .output(output.get()));
+    }
+
+    public ItemApplicationRecipeGen(net.fabricmc.fabric.api.datagen.v1.FabricDataOutput output) {
+        super(output, CreateConnected.MODID);
+    }
+}

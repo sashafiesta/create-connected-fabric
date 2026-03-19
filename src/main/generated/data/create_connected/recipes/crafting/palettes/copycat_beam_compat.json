@@ -1,0 +1,22 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:copycat_beam"
+    },
+    {
+      "condition": "create_connected:feature_enabled_in_copycats",
+      "feature": "create_connected:copycat_beam"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create_connected:copycat_beam"
+    }
+  ],
+  "result": {
+    "item": "create_connected:copycat_beam"
+  }
+}

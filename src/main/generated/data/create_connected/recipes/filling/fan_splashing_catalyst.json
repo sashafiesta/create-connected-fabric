@@ -1,0 +1,24 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:empty_fan_catalyst"
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "amount": 81000,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "create_connected:fan_splashing_catalyst"
+    }
+  ]
+}

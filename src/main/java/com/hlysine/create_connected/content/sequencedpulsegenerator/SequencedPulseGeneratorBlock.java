@@ -1,13 +1,14 @@
 package com.hlysine.create_connected.content.sequencedpulsegenerator;
 
 import com.hlysine.create_connected.CCBlockEntityTypes;
-//import com.hlysine.create_connected.datagen.advancements.AdvancementBehaviour;
+import com.hlysine.create_connected.datagen.advancements.AdvancementBehaviour;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.redstone.diodes.AbstractDiodeBlock;
 import com.simibubi.create.content.redstone.diodes.BrassDiodeBlock;
 import com.simibubi.create.content.redstone.diodes.PoweredLatchBlock;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.gui.ScreenOpener;
+import io.github.fabricators_of_create.porting_lib.block.ConnectableRedstoneBlock;
+import net.createmod.catnip.gui.ScreenOpener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,18 +29,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.ticks.TickPriority;
-import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
-import com.tterrag.registrate.fabric.EnvExecutor;
+import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.NotNull;
-import io.github.fabricators_of_create.porting_lib.block.ConnectableRedstoneBlock;
 
-//net.minecraftforge.api.distmarker.Dist -> net.fabricmc.api.Environment
-//net.minecraftforge.api.distmarker.OnlyIn ->  net.fabricmc.api.EnvType
-//net.minecraftforge.fml.DistExecutor -> com.tterrag.registrate.fabric.EnvExecutor
-//Dist -> Environment
-//DistExecutor -> EnvExecutor
-//unsafeRunWhenOn -> runWhenOn
 public class SequencedPulseGeneratorBlock extends AbstractDiodeBlock implements IBE<SequencedPulseGeneratorBlockEntity>, ConnectableRedstoneBlock {
     public static final BooleanProperty POWERING = BrassDiodeBlock.POWERING;
     public static final BooleanProperty POWERED_SIDE = PoweredLatchBlock.POWERED_SIDE;
@@ -61,7 +54,7 @@ public class SequencedPulseGeneratorBlock extends AbstractDiodeBlock implements 
 
     @Override
     public void setPlacedBy(@NotNull Level worldIn, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull LivingEntity placer, @NotNull ItemStack stack) {
-        //AdvancementBehaviour.trackOwner(worldIn, pos, placer);
+        AdvancementBehaviour.trackOwner(worldIn, pos, placer);
     }
 
     @Override
@@ -164,8 +157,8 @@ public class SequencedPulseGeneratorBlock extends AbstractDiodeBlock implements 
         if (AllItems.WRENCH.isIn(held))
             return InteractionResult.PASS;
 
-        EnvExecutor.runWhenOn(EnvType.CLIENT,
-                () -> () -> withBlockEntityDo(worldIn, pos, be -> this.displayScreen(be, player)));
+        if (worldIn.isClientSide())
+            withBlockEntityDo(worldIn, pos, be -> this.displayScreen(be, player));
         return InteractionResult.SUCCESS;
     }
 

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "create_connected:music_disc_elevator",
+    "create_connected:music_disc_interlude"
+  ]
+}

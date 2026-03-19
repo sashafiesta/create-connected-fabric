@@ -1,8 +1,8 @@
 package com.hlysine.create_connected.content.sequencedpulsegenerator;
 
 import com.hlysine.create_connected.content.sequencedpulsegenerator.instructions.*;
-//import com.hlysine.create_connected.datagen.advancements.AdvancementBehaviour;
-//import com.hlysine.create_connected.datagen.advancements.CCAdvancements;
+import com.hlysine.create_connected.datagen.advancements.AdvancementBehaviour;
+import com.hlysine.create_connected.datagen.advancements.CCAdvancements;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
@@ -55,7 +55,7 @@ public class SequencedPulseGeneratorBlockEntity extends SmartBlockEntity {
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        //AdvancementBehaviour.registerAwardables(this, behaviours, CCAdvancements.PULSE_GEN_INFINITE_LOOP);
+        AdvancementBehaviour.registerAwardables(this, behaviours, CCAdvancements.PULSE_GEN_INFINITE_LOOP);
     }
 
     public boolean isIdle() {
@@ -122,7 +122,7 @@ public class SequencedPulseGeneratorBlockEntity extends SmartBlockEntity {
                 }
                 if (!level.isClientSide() && infiniteLoopCounter > 101) {
                     infiniteLoopCounter = 0;
-                    //AdvancementBehaviour.tryAward(this, CCAdvancements.PULSE_GEN_INFINITE_LOOP);
+                    AdvancementBehaviour.tryAward(this, CCAdvancements.PULSE_GEN_INFINITE_LOOP);
                 }
             }
         } else {

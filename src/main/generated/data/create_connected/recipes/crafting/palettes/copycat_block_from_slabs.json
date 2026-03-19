@@ -1,0 +1,34 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:copycat_block"
+    },
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "create_connected:feature_enabled_in_copycats",
+        "feature": "create_connected:copycat_block"
+      }
+    },
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:copycat_slab"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "s": {
+      "item": "create_connected:copycat_slab"
+    }
+  },
+  "pattern": [
+    "s",
+    "s"
+  ],
+  "result": {
+    "item": "create_connected:copycat_block"
+  },
+  "show_notification": true
+}

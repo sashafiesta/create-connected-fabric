@@ -1,0 +1,25 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:item_silo"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "create:iron_sheet"
+    },
+    "C": {
+      "tag": "c:wooden_barrels"
+    }
+  },
+  "pattern": [
+    "BCB"
+  ],
+  "result": {
+    "item": "create_connected:item_silo"
+  },
+  "show_notification": true
+}

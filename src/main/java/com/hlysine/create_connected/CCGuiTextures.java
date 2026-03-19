@@ -1,13 +1,13 @@
 package com.hlysine.create_connected;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.simibubi.create.foundation.gui.UIRenderHelper;
-import com.simibubi.create.foundation.gui.element.ScreenElement;
-import com.simibubi.create.foundation.utility.Color;
+import net.createmod.catnip.gui.UIRenderHelper;
+import net.createmod.catnip.gui.element.ScreenElement;
+import net.createmod.catnip.utility.theme.Color;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.fabricmc.api.Environment;
-import net.fabricmc.api.EnvType;
 
 public enum CCGuiTextures implements ScreenElement {
 
@@ -36,7 +36,7 @@ public enum CCGuiTextures implements ScreenElement {
     }
 
     CCGuiTextures(String location, int startX, int startY, int width, int height) {
-        this(CreateConnected.ID, location, startX, startY, width, height);
+        this(CreateConnected.MODID, location, startX, startY, width, height);
     }
 
     CCGuiTextures(String namespace, String location, int startX, int startY, int width, int height) {
@@ -64,4 +64,3 @@ public enum CCGuiTextures implements ScreenElement {
     }
 
 }
-

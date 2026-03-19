@@ -1,0 +1,21 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:copycat_vertical_step"
+    },
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "create_connected:feature_enabled_in_copycats",
+        "feature": "create_connected:copycat_vertical_step"
+      }
+    }
+  ],
+  "type": "minecraft:stonecutting",
+  "count": 4,
+  "ingredient": {
+    "tag": "c:ingots/zinc"
+  },
+  "result": "create_connected:copycat_vertical_step"
+}

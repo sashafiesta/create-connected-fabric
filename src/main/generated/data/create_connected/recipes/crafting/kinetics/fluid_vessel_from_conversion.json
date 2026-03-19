@@ -1,0 +1,22 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create:fluid_tank"
+    },
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:fluid_vessel"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create:fluid_tank"
+    }
+  ],
+  "result": {
+    "item": "create_connected:fluid_vessel"
+  }
+}

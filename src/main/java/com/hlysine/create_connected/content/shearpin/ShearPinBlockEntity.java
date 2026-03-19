@@ -1,6 +1,8 @@
 package com.hlysine.create_connected.content.shearpin;
 
 import com.hlysine.create_connected.CCBlocks;
+import com.hlysine.create_connected.datagen.advancements.AdvancementBehaviour;
+import com.hlysine.create_connected.datagen.advancements.CCAdvancements;
 import com.simibubi.create.content.kinetics.KineticNetwork;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.simpleRelays.BracketedKineticBlockEntity;
@@ -45,7 +47,7 @@ public class ShearPinBlockEntity extends BracketedKineticBlockEntity {
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         super.addBehaviours(behaviours);
-        //AdvancementBehaviour.registerAwardables(this, behaviours, CCAdvancements.SHEAR_PIN);
+        AdvancementBehaviour.registerAwardables(this, behaviours, CCAdvancements.SHEAR_PIN);
     }
 }
 

@@ -25,14 +25,12 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
-import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 
-public class BrassGearboxBlock extends RotatedPillarKineticBlock implements IBE<BrassGearboxBlockEntity>, BlockPickInteractionAware {
+public class BrassGearboxBlock extends RotatedPillarKineticBlock implements IBE<BrassGearboxBlockEntity> {
 
     public static final BooleanProperty FACE_1_FLIPPED = BooleanProperty.create("face_1_flipped");
     public static final BooleanProperty FACE_2_FLIPPED = BooleanProperty.create("face_2_flipped");
@@ -57,7 +55,12 @@ public class BrassGearboxBlock extends RotatedPillarKineticBlock implements IBE<
         builder.add(FACE_3_FLIPPED);
         builder.add(FACE_4_FLIPPED);
     }
-	
+
+    // Fabric: push reaction set via BlockBehaviour.Properties.pushReaction()
+    public PushReaction getPistonPushReaction(BlockState state) {
+        return PushReaction.PUSH_ONLY;
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public @NotNull List<ItemStack> getDrops(BlockState state, @NotNull LootParams.Builder builder) {
@@ -65,14 +68,13 @@ public class BrassGearboxBlock extends RotatedPillarKineticBlock implements IBE<
             return super.getDrops(state, builder);
         return List.of(new ItemStack(CCItems.VERTICAL_BRASS_GEARBOX.get()));
     }
-	
-	@Override
-	public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @Nullable Player player, @Nullable HitResult result) {
-		if (state.getValue(AXIS).isVertical())
-			return super.getCloneItemStack(view, pos, state);
-		return new ItemStack(CCItems.VERTICAL_BRASS_GEARBOX.get());
-	}
 
+    @Override
+    public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos, BlockState state) {
+        if (state.getValue(AXIS).isVertical())
+            return super.getCloneItemStack(world, pos, state);
+        return new ItemStack(CCItems.VERTICAL_BRASS_GEARBOX.get());
+    }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {

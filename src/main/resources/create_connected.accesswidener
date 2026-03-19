@@ -1,1 +1,26 @@
-accessWidener v1 named
+accessWidener v2 named
+
+# ButtonBlock fields for LinkedButtonBlock
+accessible field net/minecraft/world/level/block/ButtonBlock type Lnet/minecraft/world/level/block/state/properties/BlockSetType;
+accessible field net/minecraft/world/level/block/ButtonBlock ticksToStayPressed I
+accessible field net/minecraft/world/level/block/ButtonBlock arrowsCanPress Z
+
+# JukeboxBlockEntity for mixin
+accessible method net/minecraft/world/level/block/entity/JukeboxBlockEntity stopPlaying ()V
+
+# LevelRenderer for mixin
+accessible method net/minecraft/client/renderer/LevelRenderer notifyNearbyEntities (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Z)V
+
+# DataGenerator.vanillaPackOutput for sound provider
+accessible field net/minecraft/data/DataGenerator vanillaPackOutput Lnet/minecraft/data/PackOutput;
+
+# SkullBlockRenderer.SKIN_BY_TYPE for dragon head renderer
+accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer SKIN_BY_TYPE Ljava/util/Map;
+
+# MinecraftServer.haveTime for CopycatsManager migration throttling
+accessible method net/minecraft/server/MinecraftServer haveTime ()Z
+
+# Ingredient - allow extending and accessing inner Value class
+extendable class net/minecraft/world/item/crafting/Ingredient
+accessible method net/minecraft/world/item/crafting/Ingredient <init> (Ljava/util/stream/Stream;)V
+accessible class net/minecraft/world/item/crafting/Ingredient$Value

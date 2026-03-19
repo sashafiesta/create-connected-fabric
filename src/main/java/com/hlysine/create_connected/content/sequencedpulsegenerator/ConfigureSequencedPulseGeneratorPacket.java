@@ -7,8 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.fabricmc.api.EnvType;
-import com.tterrag.registrate.fabric.EnvExecutor;
 
 public class ConfigureSequencedPulseGeneratorPacket extends BlockEntityConfigurationPacket<SequencedPulseGeneratorBlockEntity> {
 
@@ -22,7 +20,7 @@ public class ConfigureSequencedPulseGeneratorPacket extends BlockEntityConfigura
     public ConfigureSequencedPulseGeneratorPacket(FriendlyByteBuf buffer) {
         super(buffer);
     }
-	
+
     @Override
     protected void readSettings(FriendlyByteBuf buffer) {
         instructions = buffer.readNbt().getList("data", Tag.TAG_COMPOUND);

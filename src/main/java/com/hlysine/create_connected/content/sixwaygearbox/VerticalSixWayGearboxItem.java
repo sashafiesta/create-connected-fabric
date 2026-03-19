@@ -1,8 +1,8 @@
 package com.hlysine.create_connected.content.sixwaygearbox;
 
-import  com.hlysine.create_connected.CCItems;
+import com.hlysine.create_connected.CCBlocks;
 import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.foundation.utility.Iterate;
+import net.createmod.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
-import com.hlysine.create_connected.CCBlocks;
+
 import java.util.Map;
 
 public class VerticalSixWayGearboxItem extends BlockItem {

@@ -1,0 +1,25 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:fluid_vessel"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "create:copper_sheet"
+    },
+    "C": {
+      "tag": "c:wooden_barrels"
+    }
+  },
+  "pattern": [
+    "BCB"
+  ],
+  "result": {
+    "item": "create_connected:fluid_vessel"
+  },
+  "show_notification": true
+}

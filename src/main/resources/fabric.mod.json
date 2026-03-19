@@ -1,35 +1,43 @@
 {
-  "schemaVersion": 1,
-  "id": "create_connected",
-  "version": "${version}",
-  "name": "Create: Connected [Fabric]",
-  "description": "Quality-of-life blocks that you wish existed in Create.",
-  "authors": [
-    "Lysine",
-	"sashafiesta"
-  ],
-  "contact": {
-    "sources": "https://github.com/sashafiesta/create-connected-fabric"
-  },
-  "license": "AGPL-3.0",
-  "icon": "assets/create_connected/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "com.hlysine.create_connected.CreateConnected"
+    "schemaVersion": 1,
+    "id": "create_connected",
+    "version": "${version}",
+    "name": "Create: Connected (Fabric)",
+    "description": "Quality-of-life blocks that you wish existed in Create.",
+    "authors": [
+        "Lysine",
+        "sashafiesta"
     ],
-    "client": [
-      "com.hlysine.create_connected.CreateConnectedClient"
-    ]
-  },
-  "mixins": [
-    "create_connected.mixins.json"
-  ],
-  "depends": {
-    "fabricloader": ">=${fabric_loader_version}",
-    "fabric-api": ">=${fabric_api_version}",
-    "create": ">=${create_version}",
-    "minecraft": "${minecraft_version}"
-  },
-  "accessWidener" : "create_connected.accesswidener"
+    "contact": {
+        "homepage": "https://github.com/sashafiesta/create-connected-fabric",
+        "sources": "https://github.com/sashafiesta/create-connected-fabric"
+    },
+    "license": "AGPL-3.0",
+    "icon": "assets/create_connected/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.hlysine.create_connected.CreateConnected"
+        ],
+        "client": [
+            "com.hlysine.create_connected.CreateConnectedClient"
+        ],
+        "fabric-datagen": [
+            "com.hlysine.create_connected.CreateConnectedDataGenerator"
+        ],
+        "additional-placements-generators": [
+            "com.hlysine.create_connected.compat.AdditionalPlacementsCompat"
+        ]
+    },
+    "accessWidener": "create_connected.accesswidener",
+    "mixins": [
+        "create_connected.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.18.4",
+        "minecraft": "~1.20.1",
+        "java": ">=17",
+        "fabric-api": "*",
+        "create": ">=6.0.8"
+    }
 }

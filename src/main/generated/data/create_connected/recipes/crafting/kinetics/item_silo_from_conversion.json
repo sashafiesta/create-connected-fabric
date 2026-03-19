@@ -1,0 +1,22 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create:item_vault"
+    },
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:item_silo"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create:item_vault"
+    }
+  ],
+  "result": {
+    "item": "create_connected:item_silo"
+  }
+}

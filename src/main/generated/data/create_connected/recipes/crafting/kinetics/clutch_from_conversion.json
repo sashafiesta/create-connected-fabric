@@ -1,0 +1,22 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:inverted_clutch"
+    },
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create:clutch"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create_connected:inverted_clutch"
+    }
+  ],
+  "result": {
+    "item": "create:clutch"
+  }
+}

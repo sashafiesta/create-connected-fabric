@@ -1,0 +1,29 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create_dragons_plus"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "amount": 81000,
+      "fluidTag": "create_dragons_plus:fan_processing_catalysts/ending"
+    }
+  ],
+  "results": [
+    {
+      "item": "create_connected:fan_ending_catalyst_dragons_breath"
+    }
+  ]
+}

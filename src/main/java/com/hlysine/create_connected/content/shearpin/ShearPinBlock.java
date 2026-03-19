@@ -4,14 +4,16 @@ import com.google.common.base.Predicates;
 import com.hlysine.create_connected.CCBlockEntityTypes;
 import com.hlysine.create_connected.CCBlocks;
 import com.hlysine.create_connected.content.AbstractBEShaftBlock;
+import com.hlysine.create_connected.datagen.advancements.AdvancementBehaviour;
+import com.hlysine.create_connected.datagen.advancements.CCAdvancements;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllShapes;
 import com.simibubi.create.content.kinetics.simpleRelays.AbstractSimpleShaftBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.ShaftBlock;
-import com.simibubi.create.foundation.placement.IPlacementHelper;
-import com.simibubi.create.foundation.placement.PlacementHelpers;
-import com.simibubi.create.foundation.placement.PlacementOffset;
 import com.simibubi.create.foundation.placement.PoleHelper;
+import net.createmod.catnip.placement.IPlacementHelper;
+import net.createmod.catnip.placement.PlacementHelpers;
+import net.createmod.catnip.placement.PlacementOffset;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -67,7 +69,7 @@ public class ShearPinBlock extends AbstractBEShaftBlock<ShearPinBlockEntity> {
             pLevel.destroyBlock(pPos, false);
             Vec3 center = pPos.getCenter();
             pLevel.sendParticles(ParticleTypes.LARGE_SMOKE, center.x, center.y, center.z, 5, 0.1, 0.1, 0.1, 0.05);
-            //AdvancementBehaviour.tryAward(kte, CCAdvancements.SHEAR_PIN);
+            AdvancementBehaviour.tryAward(kte, CCAdvancements.SHEAR_PIN);
         }
     }
 

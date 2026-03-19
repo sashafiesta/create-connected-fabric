@@ -1,133 +1,221 @@
-//file:noinspection GroovyAssignabilityCheck
-//file:noinspection GroovyAccessibility
-//file:noinspection GradlePackageVersionRange
 plugins {
-	id "fabric-loom" version "1.0.+"
-	id "io.github.juuxel.loom-quiltflower" version "1.10.0" // Quiltflower, a better decompiler
-	id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
-	id "maven-publish"
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
+version = project.mod_version
 group = project.maven_group
 
-// Formats the mod version to include the Minecraft version and build number (if present)
-// example: 1.0.0+1.18.2-100
-String buildNumber = System.getenv("GITHUB_RUN_NUMBER")
-version = "${mod_version}+${minecraft_version}" + (buildNumber != null ? "-${buildNumber}" : "")
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/create_connected.accesswidener")
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir "src/main/generated"
+        }
+    }
+}
 
 repositories {
-	maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
-	maven { url = "https://maven.blamejared.com" } // JEI
-	maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-	maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
-	maven { url = "https://api.modrinth.com/maven" } // LazyDFU
-	maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu
-	maven { url = "https://mvn.devos.one/snapshots/" } // Create, Forge Tags, Milk Lib, Registrate
-	maven { url = "https://mvn.devos.one/releases" } // Porting Lib
-	maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // Forge Config API Port
-	maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
-	maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
-	maven { url = "https://maven.tterrag.com/" } // Flywheel
+    maven {
+        // Create Fabric, EMI, REI
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        // Mod Menu
+        url = "https://maven.terraformersmc.com/releases/"
+    }
+    maven {
+        // JEI
+        url = "https://maven.blamejared.com"
+    }
+    maven {
+        // Parchment
+        url = "https://maven.parchmentmc.org"
+    }
+    maven {
+        // Cloth Config, REI
+        url = "https://maven.shedaniel.me/"
+    }
+    maven {
+        // Create, Porting Lib, Milk Lib, Dripstone Fluid Lib
+        url = "https://mvn.devos.one/snapshots/"
+    }
+    maven {
+        // Porting Lib
+        url = "https://mvn.devos.one/releases/"
+    }
+    maven {
+        // Flywheel, Flywheel API, Ponder Fabric, Ponder Common
+        url = "https://maven.createmod.net/"
+    }
+    maven {
+        // ForgeConfigAPIPort
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven"
+    }
+    maven {
+        // Reach Entity Attributes
+        url = "https://maven.jamieswhiteshirt.com/libs-release"
+    }
+    maven {
+        // Copycats+
+        name = "realrobotixCopycats"
+        url = "https://maven.realrobotix.me/copycats"
+    }
+    maven {
+        // CurseMaven
+        url = "https://cursemaven.com"
+    }
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+        modId = project.mod_id
+    }
 }
 
 dependencies {
-	// Setup
-	minecraft("com.mojang:minecraft:${minecraft_version}")
-	mappings(loom.layered {
-		it.mappings("org.quiltmc:quilt-mappings:${minecraft_version}+build.${qm_version}:intermediary-v2")
-		it.parchment("org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip")
-		it.officialMojangMappings { nameSyntheticMembers = false }
-	})
-	modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
-	// dependencies
-	modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+    // Layered mappings: Official Mojang + Parchment for parameter names
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip")
+    }
 
-	// Create - dependencies are added transitively
-	modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	// Development QOL
-	modLocalRuntime("maven.modrinth:lazydfu:${lazydfu_version}")
-	modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
+    // Create Fabric and its dependencies
+    // Create JiJ's Registrate, Ponder, porting_lib, milk, flywheel etc. in the final jar
+    // Use modCompileOnly for compilation + modLocalRuntime for dev runs (runClient/runData)
+    // This avoids version conflicts in the built jar while keeping deps available in dev
+    modImplementation("maven.modrinth:create-fabric:${create_version}")
+    modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-1.20.1:${flywheel_version}")
+    modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-api-1.20.1:${flywheel_api_version}")
+    // JiJ the flywheel API jar so BlockEntityVisual etc. are available on dedicated servers
+    // (flywheel itself is client-only, but the API interfaces are needed for class loading)
+    include("dev.engine-room.flywheel:flywheel-fabric-api-1.20.1:${flywheel_api_version}")
+    modCompileOnly("net.createmod.catnip:Catnip-Fabric-1.20.1:${catnip_version}") {
+        exclude group: "dev.engine_room.flywheel"
+    }
+    modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.20.1:${ponder_version}") {
+        exclude group: "dev.engine_room.flywheel"
+    }
+    modCompileOnly("com.tterrag.registrate_fabric:Registrate:${registrate_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:accessors:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:base:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:entity:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:extensions:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:model_generators:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:models:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:networking:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:obj_loader:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:transfer:${porting_lib_version}")
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:client_events:${porting_lib_version}")
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
 
-	// Recipe Viewers - Create Fabric supports JEI, REI, and EMI.
-	// See root gradle.properties to choose which to use at runtime.
-	switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
-		case "jei": modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
-		case "rei": modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
-		case "emi": modLocalRuntime("dev.emi:emi:${emi_version}"); break
-		case "disabled": break
-		default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
-	}
+    // Local runtime dependencies - needed for dev runs (runClient/runData)
+    // Create JiJ's these at specific versions - use matching versions to avoid conflicts
+    modLocalRuntime("dev.engine-room.flywheel:flywheel-fabric-1.20.1:${flywheel_runtime_version}")
+    modLocalRuntime("net.createmod.ponder:Ponder-Fabric-1.20.1:${ponder_runtime_version}") {
+        exclude group: "dev.engine_room.flywheel"
+        exclude group: "io.github.fabricators_of_create.Porting-Lib"
+    }
+    modLocalRuntime("com.tterrag.registrate_fabric:Registrate:${registrate_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:accessors:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:base:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:entity:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:extensions:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:model_generators:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:models:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:networking:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:obj_loader:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:transfer:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:client_events:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:tags:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:brewing:${porting_lib_version}")
+    modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:tool_actions:${porting_lib_version}")
+    modLocalRuntime("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forgeconfigapiport_version}")
+    modLocalRuntime("io.github.tropheusj:milk-lib:${milk_version}")
+    modLocalRuntime("com.jamieswhiteshirt:reach-entity-attributes:${reach_entity_attributes_version}")
 
-	include modApi("teamreborn:energy:${energy_version}") {
-		transitive = false
-	}
+    // Development QOL
+    modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
 
-	// if you would like to add integration with them, uncomment them here.
-//    modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_fabric_version}")
-//    modCompileOnly("mezz.jei:jei-${minecraft_version}-common:${jei_fabric_version}")
-//    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}")
-//    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}")
-//    modCompileOnly("dev.emi:emi:${emi_version}")
+    // Compat - Additional Placements
+    modCompileOnly("maven.modrinth:additional-placements-fabric:${additional_placements_version}")
+
+    // Compat - Copycats+
+    modCompileOnly("com.copycatsplus:copycats:${copycats_version}")
+
+    // Recipe Viewers
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+    switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
+        case "jei": modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
+        case "rei": modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
+        case "emi": modLocalRuntime("dev.emi:emi:${emi_version}"); break
+        case "disabled": break
+        default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
+    }
 }
 
 processResources {
-	// require dependencies to be the version compiled against or newer
-	Map<String, String> properties = new HashMap<>()
-	properties.put("version", version)
-	properties.put("fabric_loader_version", fabric_loader_version)
-	properties.put("fabric_api_version", fabric_api_version)
-	properties.put("create_version", create_version)
-	properties.put("minecraft_version", minecraft_version)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // Pass properties to fabric.mod.json
+    Map<String, String> properties = [
+            "version"              : project.mod_version,
+            "fabric_loader_version": project.loader_version,
+            "fabric_api_version"   : project.fabric_api_version,
+            "create_version"       : project.create_version,
+            "minecraft_version"    : project.minecraft_version,
+            "mod_id"               : project.mod_id,
+            "mod_name"             : project.mod_name,
+            "mod_description"      : project.mod_description,
+            "mod_authors"          : project.mod_authors,
+            "mod_license"          : project.mod_license
+    ]
 
-	properties.forEach((k, v) -> inputs.property(k, v))
+    inputs.properties(properties)
 
-	filesMatching("fabric.mod.json") {
-		expand properties
-	}
-}
-
-machete {
-	// disable machete locally for faster builds
-	enabled = buildNumber != null
+    filesMatching("fabric.mod.json") {
+        expand properties
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = Integer.parseInt(sourceCompatibility)
+    it.options.release = 17
 }
 
 java {
-	withSourcesJar()
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+sourcesJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}" }
-	}
+    inputs.property "archivesName", project.base.archivesName
+    from("LICENSE") {
+        rename { "${it}_${inputs.properties.archivesName}" }
+    }
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
-
-	loom {
-		accessWidenerPath = file("src/main/resources/create_connected.accesswidener")
-	}
-
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
 }

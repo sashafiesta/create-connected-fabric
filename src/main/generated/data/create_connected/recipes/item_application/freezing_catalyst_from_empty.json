@@ -1,0 +1,31 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "dndesires",
+        "create_henry",
+        "garnished",
+        "create_dragons_plus"
+      ]
+    }
+  ],
+  "type": "create:item_application",
+  "ingredients": [
+    {
+      "item": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "item": "minecraft:powder_snow_bucket"
+    }
+  ],
+  "results": [
+    {
+      "item": "create_connected:fan_freezing_catalyst"
+    }
+  ]
+}
