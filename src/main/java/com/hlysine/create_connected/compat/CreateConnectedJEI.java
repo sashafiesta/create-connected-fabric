@@ -1,6 +1,6 @@
 package com.hlysine.create_connected.compat;
 
-import com.hlysine.create_connected.CCCreativeTabs;
+import com.hlysine.create_connected.registries.CCCreativeTabs;
 import com.hlysine.create_connected.CreateConnected;
 import com.hlysine.create_connected.config.FeatureToggle;
 import com.tterrag.registrate.util.entry.ItemProviderEntry;
@@ -34,6 +34,7 @@ public class CreateConnectedJEI implements IModPlugin {
 
     public static void refreshItemList() {
         if (MANAGER != null && Minecraft.getInstance().level != null) {
+            FeatureRefreshEvent.PRE.invoker().onPre(new FeatureRefreshEvent.Pre(ID, MANAGER));
             MANAGER.removeIngredientsAtRuntime(
                     VanillaTypes.ITEM_STACK,
                     CCCreativeTabs.ITEMS.stream()
@@ -47,6 +48,7 @@ public class CreateConnectedJEI implements IModPlugin {
                             .map(ItemProviderEntry::asStack)
                             .collect(Collectors.toList())
             );
+            FeatureRefreshEvent.POST.invoker().onPost(new FeatureRefreshEvent.Post(ID, MANAGER));
         }
     }
 }

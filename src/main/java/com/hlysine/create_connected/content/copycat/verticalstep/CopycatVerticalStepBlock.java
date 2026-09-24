@@ -1,8 +1,8 @@
 package com.hlysine.create_connected.content.copycat.verticalstep;
 
-import com.hlysine.create_connected.CCBlocks;
-import com.hlysine.create_connected.CCShapes;
 import com.hlysine.create_connected.content.copycat.MigratingWaterloggedCopycatBlock;
+import com.hlysine.create_connected.registries.CCBlocks;
+import com.hlysine.create_connected.registries.CCShapes;
 import com.simibubi.create.foundation.placement.PoleHelper;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.data.Pair;

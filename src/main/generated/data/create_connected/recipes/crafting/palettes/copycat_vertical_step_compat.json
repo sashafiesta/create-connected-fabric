@@ -6,7 +6,7 @@
     },
     {
       "condition": "create_connected:feature_enabled_in_copycats",
-      "feature": "create_connected:copycat_vertical_step"
+      "feature": "copycats:copycat_vertical_step"
     }
   ],
   "type": "minecraft:crafting_shapeless",
@@ -17,6 +17,6 @@
     }
   ],
   "result": {
-    "item": "create_connected:copycat_vertical_step"
+    "item": "copycats:copycat_vertical_step"
   }
 }

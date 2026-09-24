@@ -1,7 +1,7 @@
 package com.hlysine.create_connected.mixin.linkedtransmitter;
 
-import com.hlysine.create_connected.CCBlocks;
-import com.hlysine.create_connected.CCItems;
+import com.hlysine.create_connected.registries.CCBlocks;
+import com.hlysine.create_connected.registries.CCItems;
 import com.simibubi.create.content.redstone.analogLever.AnalogLeverBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

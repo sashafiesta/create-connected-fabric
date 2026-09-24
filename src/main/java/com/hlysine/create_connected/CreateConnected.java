@@ -6,6 +6,7 @@ import com.hlysine.create_connected.config.CCConfigs;
 import com.hlysine.create_connected.content.redstonelinkwildcard.LinkWildcardNetworkHandler;
 import com.hlysine.create_connected.datagen.advancements.CCAdvancements;
 import com.hlysine.create_connected.datagen.advancements.CCTriggers;
+import com.hlysine.create_connected.registries.*;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
@@ -56,6 +57,7 @@ public class CreateConnected implements ModInitializer {
         CCMovementBehaviours.register();
         CCMountedStorageTypes.register();
         CCDisplaySources.register();
+        CCDisplayTargets.register();
         CCItemAttributes.register();
 
         LinkWildcardNetworkHandler.register();

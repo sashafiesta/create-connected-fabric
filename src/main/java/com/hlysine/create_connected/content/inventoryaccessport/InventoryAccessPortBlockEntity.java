@@ -1,4 +1,6 @@
 package com.hlysine.create_connected.content.inventoryaccessport;
+
+import com.hlysine.create_connected.registries.CCBlockEntityTypes;
 import com.simibubi.create.content.redstone.DirectedDirectionalBlock;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -10,13 +12,13 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,6 +53,11 @@ public class InventoryAccessPortBlockEntity extends SmartBlockEntity implements 
 
     public boolean isAttached() {
         return !powered && observedInventory.hasInventory() && !(observedInventory.getInventory() instanceof WrappedItemHandler);
+    }
+
+    public @Nullable BlockState getAttachedBlock() {
+        if (!isAttached()) return null;
+        return level.getBlockState(observedInventory.getTarget().getConnectedPos());
     }
 
     public void updateConnectedInventory() {

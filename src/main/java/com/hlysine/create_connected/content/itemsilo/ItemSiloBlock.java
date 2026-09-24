@@ -1,7 +1,7 @@
 package com.hlysine.create_connected.content.itemsilo;
 
-import com.hlysine.create_connected.CCBlockEntityTypes;
-import com.hlysine.create_connected.CCBlocks;
+import com.hlysine.create_connected.registries.CCBlockEntityTypes;
+import com.hlysine.create_connected.registries.CCBlocks;
 import com.simibubi.create.api.connectivity.ConnectivityHandler;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
@@ -9,6 +9,7 @@ import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.item.ItemHelper;
 import io.github.fabricators_of_create.porting_lib.block.CustomSoundTypeBlock;
 import io.github.fabricators_of_create.porting_lib.util.LazySoundType;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -99,6 +100,9 @@ public class ItemSiloBlock extends Block implements IWrenchable, IBE<ItemSiloBlo
 
     @Override
     public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+        // Fabric: comparators may be updated from a transaction close callback, where reading storage would crash
+        if (Transaction.isOpen())
+            return 0;
         return ItemHelper.calcRedstoneFromBlockEntity(this, pLevel, pPos);
     }
 

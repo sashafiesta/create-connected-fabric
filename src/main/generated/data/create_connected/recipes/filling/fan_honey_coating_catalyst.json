@@ -1,0 +1,30 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create_more_catalysts"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "amount": 81000,
+      "fluid": "create:honey",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "create_connected:fan_honey_coating_catalyst"
+    }
+  ]
+}

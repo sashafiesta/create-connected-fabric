@@ -1,6 +1,6 @@
 package com.hlysine.create_connected.content.itemsilo;
 
-import com.hlysine.create_connected.CCBlockEntityTypes;
+import com.hlysine.create_connected.registries.CCBlockEntityTypes;
 import com.simibubi.create.api.connectivity.ConnectivityHandler;
 import com.simibubi.create.api.packager.InventoryIdentifier;
 import com.simibubi.create.foundation.blockEntity.IMultiBlockEntityContainer;
@@ -17,6 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.Clearable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlockEntityContainer.Inventory, SidedStorageBlockEntity {
+public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlockEntityContainer.Inventory, Clearable, SidedStorageBlockEntity {
 
     protected Storage<ItemVariant> itemCapability;
     protected InventoryIdentifier invId;
@@ -40,6 +41,7 @@ public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlock
     protected int radius;
     protected int length;
     protected Axis axis;
+    protected boolean recalculateComparatorsNextTick = false;
 
     public ItemSiloBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -48,7 +50,8 @@ public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlock
             @Override
             protected void onContentsChanged(int slot) {
                 super.onContentsChanged(slot);
-                updateComparators();
+                // Fabric: may run in a transaction close callback, where comparator reads would crash; deferred to tick
+                recalculateComparatorsNextTick = true;
                 level.blockEntityChanged(worldPosition);
             }
         };
@@ -71,6 +74,8 @@ public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlock
     }
 
     protected void updateComparators() {
+        recalculateComparatorsNextTick = false;
+
         ItemSiloBlockEntity controllerBE = getControllerBE();
         if (controllerBE == null)
             return;
@@ -100,6 +105,9 @@ public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlock
 
         if (updateConnectivity)
             updateConnectivity();
+
+        if (recalculateComparatorsNextTick)
+            updateComparators();
     }
 
     @Override
@@ -322,4 +330,9 @@ public class ItemSiloBlockEntity extends SmartBlockEntity implements IMultiBlock
 
     @Override
     public boolean hasInventory() { return true; }
+
+    @Override
+    public void clearContent() {
+        inventory.setSize(inventory.getSlotCount());
+    }
 }

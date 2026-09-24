@@ -27,6 +27,9 @@
         ],
         "additional-placements-generators": [
             "com.hlysine.create_connected.compat.AdditionalPlacementsCompat"
+        ],
+        "jei_mod_plugin": [
+            "com.hlysine.create_connected.compat.CreateConnectedJEI"
         ]
     },
     "accessWidener": "create_connected.accesswidener",
@@ -39,5 +42,8 @@
         "java": ">=17",
         "fabric-api": "*",
         "create": ">=6.0.8"
+    },
+    "suggests": {
+        "jei": "*"
     }
 }

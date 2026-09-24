@@ -1,7 +1,7 @@
 package com.hlysine.create_connected.content.linkedtransmitter;
 
-import com.hlysine.create_connected.CCBlockEntityTypes;
-import com.hlysine.create_connected.CCItems;
+import com.hlysine.create_connected.registries.CCBlockEntityTypes;
+import com.hlysine.create_connected.registries.CCItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.api.schematic.requirement.SpecialBlockItemRequirement;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
@@ -84,17 +84,14 @@ public class LinkedAnalogLeverBlock extends AnalogLeverBlock implements SpecialB
         if (player.isSpectator())
             return InteractionResult.PASS;
 
+        InteractionResult result = LinkedTransmitterBlock.super.useWax(state, level, pos, player, hand, hit);
+        if (result.consumesAction())
+            return result;
+
         if (isHittingBase(state, level, pos, hit)) {
             return super.use(state, level, pos, player, hand, hit);
         }
-        if (player.isShiftKeyDown()) {
-            if (!level.isClientSide())
-                level.setBlockAndUpdate(pos, state.cycle(LOCKED));
-            return InteractionResult.SUCCESS;
-        }
-        if (state.getValue(LOCKED))
-            return InteractionResult.CONSUME;
-        return InteractionResult.PASS;
+        return LinkedTransmitterBlock.super.useTransmitter(state, level, pos, player);
     }
 
     @Override

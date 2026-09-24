@@ -1,6 +1,6 @@
 package com.hlysine.create_connected.content.attributefilter;
 
-import com.hlysine.create_connected.CCItemAttributes;
+import com.hlysine.create_connected.registries.CCItemAttributes;
 import com.simibubi.create.content.logistics.item.filter.attribute.ItemAttribute;
 import com.simibubi.create.content.logistics.item.filter.attribute.ItemAttributeType;
 import net.minecraft.nbt.CompoundTag;
@@ -49,11 +49,11 @@ public class ItemIdAttribute implements ItemAttribute {
         this.word = nbt.getString("keyword");
     }
 
-    public static class Type implements ItemAttributeType {
-        @Override
-        public @NotNull ItemAttribute createAttribute() {
-            return new ItemIdAttribute("dummy");
-        }
+public static class Type implements ItemAttributeType {
+    @Override
+    public @NotNull ItemAttribute createAttribute() {
+        return new ItemIdAttribute("dummy");
+    }
 
         @Override
         public List<ItemAttribute> getAllAttributes(ItemStack stack, Level level) {
@@ -67,7 +67,7 @@ public class ItemIdAttribute implements ItemAttribute {
             }
             return attributes;
         }
-    }
+}
 
     @SuppressWarnings("deprecation")
     public static class LegacyDeserializer implements ItemAttribute.LegacyDeserializer {

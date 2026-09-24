@@ -1,0 +1,7 @@
+{
+  "parent": "create_connected:block/fan_catalyst/with_fire",
+  "textures": {
+    "base": "minecraft:block/budding_amethyst",
+    "fire": "minecraft:block/amethyst_cluster"
+  }
+}

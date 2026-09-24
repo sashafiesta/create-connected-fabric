@@ -1,0 +1,30 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "garnished"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "amount": 81000,
+      "fluid": "garnished:cyan_mastic_resin",
+      "nbt": {}
+    },
+    {
+      "item": "create_connected:empty_fan_catalyst"
+    }
+  ],
+  "results": [
+    {
+      "item": "create_connected:cyan_fan_dyeing_catalyst"
+    }
+  ]
+}

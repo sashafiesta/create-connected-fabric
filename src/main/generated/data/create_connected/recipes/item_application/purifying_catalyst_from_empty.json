@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "create_connected:feature_enabled",
+      "feature": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create_more_catalysts"
+      ]
+    }
+  ],
+  "type": "create:item_application",
+  "ingredients": [
+    {
+      "item": "create_connected:empty_fan_catalyst"
+    },
+    {
+      "item": "minecraft:beacon"
+    }
+  ],
+  "results": [
+    {
+      "item": "create_connected:fan_purifying_catalyst"
+    }
+  ]
+}

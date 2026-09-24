@@ -6,7 +6,7 @@
     },
     {
       "condition": "create_connected:feature_enabled_in_copycats",
-      "feature": "create_connected:copycat_fence_gate"
+      "feature": "copycats:copycat_fence_gate"
     }
   ],
   "type": "minecraft:crafting_shapeless",
@@ -17,6 +17,6 @@
     }
   ],
   "result": {
-    "item": "create_connected:copycat_fence_gate"
+    "item": "copycats:copycat_fence_gate"
   }
 }

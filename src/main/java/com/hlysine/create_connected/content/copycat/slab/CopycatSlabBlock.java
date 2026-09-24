@@ -1,9 +1,9 @@
 package com.hlysine.create_connected.content.copycat.slab;
 
-import com.hlysine.create_connected.CCBlocks;
-import com.hlysine.create_connected.CCShapes;
 import com.hlysine.create_connected.content.copycat.ICopycatWithWrappedBlock;
 import com.hlysine.create_connected.content.copycat.MigratingWaterloggedCopycatBlock;
+import com.hlysine.create_connected.registries.CCBlocks;
+import com.hlysine.create_connected.registries.CCShapes;
 import com.simibubi.create.content.decoration.copycat.CopycatBlock;
 import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;

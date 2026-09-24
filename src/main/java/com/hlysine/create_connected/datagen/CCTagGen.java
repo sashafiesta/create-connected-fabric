@@ -1,14 +1,15 @@
 package com.hlysine.create_connected.datagen;
 
-import com.hlysine.create_connected.CCBlocks;
-import com.hlysine.create_connected.CCItems;
 import com.hlysine.create_connected.CreateConnected;
 import com.hlysine.create_connected.compat.Mods;
+import com.hlysine.create_connected.registries.CCBlocks;
+import com.hlysine.create_connected.registries.CCItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -63,6 +64,37 @@ public class CCTagGen {
                 .add(CCBlocks.FAN_ENDING_CATALYST_DRAGONS_BREATH.get());
         prov.tag(TagKey.create(Registries.BLOCK,Mods.HENRY.rl("fan_processing_catalysts/withering")))
                 .add(CCBlocks.FAN_WITHERING_CATALYST.get());
+        prov.tag(TagKey.create(Registries.BLOCK,Mods.MORE_CATALYSTS.rl("fan_catalysts/chocolate_coating")))
+                .add(CCBlocks.FAN_CHOCOLATE_COATING_CATALYST.get());
+        prov.tag(TagKey.create(Registries.BLOCK,Mods.MORE_CATALYSTS.rl("fan_catalysts/honey_coating")))
+                .add(CCBlocks.FAN_HONEY_COATING_CATALYST.get());
+        prov.tag(TagKey.create(Registries.BLOCK,Mods.MORE_CATALYSTS.rl("fan_catalysts/exploding")))
+                .add(CCBlocks.FAN_EXPLODING_CATALYST.get());
+        prov.tag(TagKey.create(Registries.BLOCK,Mods.MORE_CATALYSTS.rl("fan_catalysts/resonance")))
+                .add(CCBlocks.FAN_RESONANCE_CATALYST.get());
+        prov.tag(TagKey.create(Registries.BLOCK,Mods.MORE_CATALYSTS.rl("fan_catalysts/sculking")))
+                .add(CCBlocks.FAN_SCULKING_CATALYST.get());
+        prov.tag(TagKey.create(Registries.BLOCK,Mods.MORE_CATALYSTS.rl("fan_catalysts/purifying")))
+                .add(CCBlocks.FAN_PURIFYING_CATALYST.get());
+		/*
+        prov.tag(BlockTags.create(Mods.SHIMMER.rl("fan_transmutation_catalysts")))
+                .add(CCBlocks.FAN_TRANSMUTATION_CATALYST.get());
+        prov.tag(BlockTags.create(Mods.SHIMMER.rl("fan_glooming_catalysts")))
+                .add(CCBlocks.FAN_GLOOMING_CATALYST.get());
+        prov.tag(BlockTags.create(Mods.NETHER_INDUSTRY.rl("fan_soul_stripping_catalysts")))
+                .add(CCBlocks.FAN_SOUL_STRIPPING_CATALYST.get());
+		*/
+        CCBlocks.FAN_DYEING_CATALYSTS.forEach((color, block) -> {
+            prov.tag(TagKey.create(Registries.BLOCK,Mods.GARNISHED.rl("fan_processing_catalysts/dye/" + color.getName())))
+                    .add(block.get());
+            prov.tag(TagKey.create(Registries.BLOCK,Mods.DRAGONS_PLUS.rl("fan_processing_catalysts/coloring/" + color.getName())))
+                    .add(block.get());
+            prov.tag(TagKey.create(Registries.BLOCK,new ResourceLocation("c", "dyes/" + color.getName())))
+                    .add(block.get());
+            prov.tag(TagKey.create(Registries.BLOCK,new ResourceLocation("c", "dyes")))
+                    .add(block.get());
+
+        });
     }
 
     private static void genItemTags(RegistrateTagsProvider<Item> provIn) {

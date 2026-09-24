@@ -1,7 +1,7 @@
 package com.hlysine.create_connected.content.crankwheel;
 
-import com.hlysine.create_connected.CCBlockEntityTypes;
-import com.hlysine.create_connected.CCShapes;
+import com.hlysine.create_connected.registries.CCBlockEntityTypes;
+import com.hlysine.create_connected.registries.CCShapes;
 import com.simibubi.create.content.kinetics.crank.HandCrankBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.CogWheelBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -85,8 +86,23 @@ public class CrankWheelBlock extends HandCrankBlock implements ICogWheel {
     }
 
     @Override
+    protected boolean areStatesKineticallyEquivalent(BlockState oldState, BlockState newState) {
+        if (!super.areStatesKineticallyEquivalent(oldState, newState))
+            return false;
+        return oldState.getValue(FACING) == newState.getValue(FACING);
+    }
+
+    @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         return isValidCogwheelPosition(ICogWheel.isLargeCog(state), worldIn, pos, state.getValue(AXIS));
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos currentPos, BlockPos neighborPos) {
+        BlockState newState = super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
+        if (newState.getValue(FACING).getAxis() != newState.getValue(AXIS))
+            return newState.setValue(AXIS, newState.getValue(FACING).getAxis());
+        return newState;
     }
 
     @Override

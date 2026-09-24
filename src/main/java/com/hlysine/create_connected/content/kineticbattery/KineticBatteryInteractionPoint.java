@@ -1,10 +1,11 @@
 package com.hlysine.create_connected.content.kineticbattery;
 
-import com.hlysine.create_connected.CCBlocks;
+import com.hlysine.create_connected.registries.CCBlocks;
 import com.simibubi.create.content.kinetics.mechanicalArm.AllArmInteractionPointTypes;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmBlockEntity;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPoint;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPointType;
+import io.github.fabricators_of_create.porting_lib.transfer.callbacks.TransactionCallback;
 import net.minecraft.core.BlockPos;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.world.Containers;
@@ -22,12 +23,17 @@ public class KineticBatteryInteractionPoint extends AllArmInteractionPointTypes.
     public ItemStack insert(ItemStack stack, TransactionContext ctx) {
         ItemStack input = stack.copy();
         InteractionResultHolder<ItemStack> res =
-                KineticBatteryBlock.tryInsert(cachedState, level, pos, input, false, false, false);
+                KineticBatteryBlock.tryInsert(cachedState, level, pos, input, false, false, true);
+        // Fabric: only apply the insertion once the arm commits the transaction
+        ItemStack toApply = stack.copy();
+        TransactionCallback.onSuccess(ctx, () ->
+                KineticBatteryBlock.tryInsert(cachedState, level, pos, toApply, false, false, false));
         ItemStack remainder = res.getObject();
         if (input.isEmpty()) {
             return remainder;
         } else {
-            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remainder);
+            TransactionCallback.onSuccess(ctx, () ->
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remainder));
             return input;
         }
     }

@@ -1,6 +1,6 @@
 package com.hlysine.create_connected.content.attributefilter;
 
-import com.hlysine.create_connected.CCItemAttributes;
+import com.hlysine.create_connected.registries.CCItemAttributes;
 import com.simibubi.create.content.logistics.item.filter.attribute.ItemAttribute;
 import com.simibubi.create.content.logistics.item.filter.attribute.ItemAttributeType;
 import net.minecraft.nbt.CompoundTag;
@@ -49,11 +49,11 @@ public class ItemStackCountAttribute implements ItemAttribute {
         this.stackSize = nbt.getInt("stackCount");
     }
 
-    public static class Type implements ItemAttributeType {
-        @Override
-        public @NotNull ItemAttribute createAttribute() {
-            return new ItemStackCountAttribute(64);
-        }
+public static class Type implements ItemAttributeType {
+    @Override
+    public @NotNull ItemAttribute createAttribute() {
+        return new ItemStackCountAttribute(64);
+    }
 
         @Override
         public List<ItemAttribute> getAllAttributes(ItemStack stack, Level level) {
@@ -61,7 +61,7 @@ public class ItemStackCountAttribute implements ItemAttribute {
             attributes.add(new ItemStackCountAttribute(stack.getMaxStackSize()));
             return attributes;
         }
-    }
+}
 
     @SuppressWarnings("deprecation")
     public static class LegacyDeserializer implements ItemAttribute.LegacyDeserializer {

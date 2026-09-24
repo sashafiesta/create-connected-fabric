@@ -1,4 +1,6 @@
 package com.hlysine.create_connected.content.inventorybridge;
+
+import com.hlysine.create_connected.registries.CCBlockEntityTypes;
 import com.hlysine.create_connected.content.inventoryaccessport.WrappedItemHandler;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -18,8 +20,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,6 +83,16 @@ public class InventoryBridgeBlockEntity extends SmartBlockEntity implements Side
 
     public boolean isAttachedPositive() {
         return !powered && positiveInventory.hasInventory() && !(positiveInventory.getInventory() instanceof WrappedItemHandler);
+    }
+
+    public @Nullable BlockState getNegativeAttachedBlock() {
+        if (!isAttachedNegative()) return null;
+        return level.getBlockState(negativeInventory.getTarget().getConnectedPos());
+    }
+
+    public @Nullable BlockState getPositiveAttachedBlock() {
+        if (!isAttachedPositive()) return null;
+        return level.getBlockState(positiveInventory.getTarget().getConnectedPos());
     }
 
     public void updateConnectedInventory() {

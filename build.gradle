@@ -24,11 +24,11 @@ sourceSets {
 
 repositories {
     maven {
-        // Create Fabric, EMI, REI
+        // Create Fabric, Additional Placements
         url = "https://api.modrinth.com/maven"
     }
     maven {
-        // Mod Menu
+        // Mod Menu, EMI
         url = "https://maven.terraformersmc.com/releases/"
     }
     maven {
@@ -154,14 +154,16 @@ dependencies {
     modCompileOnly("maven.modrinth:additional-placements-fabric:${additional_placements_version}")
 
     // Compat - Copycats+
+    // Also needed at runtime for runData: the copycat compat recipes only point to copycats:* when Copycats+ is loaded
     modCompileOnly("com.copycatsplus:copycats:${copycats_version}")
+    modLocalRuntime("com.copycatsplus:copycats:${copycats_version}") { transitive = false }
 
     // Recipe Viewers
     modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
     switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
         case "jei": modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"); break
         case "rei": modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"); break
-        case "emi": modLocalRuntime("dev.emi:emi:${emi_version}"); break
+        case "emi": modLocalRuntime("dev.emi:emi-fabric:${emi_version}"); break
         case "disabled": break
         default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be JEI, REI, EMI, or disabled.")
     }

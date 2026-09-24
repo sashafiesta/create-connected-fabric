@@ -9,7 +9,6 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.createmod.catnip.data.Iterate;
-import net.minecraft.client.model.dragon.DragonHeadModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -21,9 +20,7 @@ import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import org.apache.commons.lang3.function.TriFunction;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 import java.util.function.Function;
 
 public class CCBlockStateGen {
@@ -66,8 +63,28 @@ public class CCBlockStateGen {
         };
     }
 
+    public static <B extends Block & LinkedTransmitterBlock> NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> linkedLeverNoPower(ResourceLocation lever) {
+        return (DataGenContext<Block, B> c, RegistrateBlockstateProvider p) -> {
+            linkedTransmitterNoPower(
+                    p, c.get(),
+                    state -> p.models().getExistingFile(lever),
+                    state -> state.getValue(BlockStateProperties.POWERED)
+                            ? p.models().getExistingFile(p.modLoc("block/linked_transmitter/block_powered" +
+                            (state.getValue(BlockStateProperties.ATTACH_FACE) == AttachFace.WALL ? "_vertical" : "") +
+                            (state.getValue(BlockStateProperties.LOCKED) ? "_locked" : "")))
+                            : p.models().getExistingFile(p.modLoc("block/linked_transmitter/block" +
+                            (state.getValue(BlockStateProperties.ATTACH_FACE) == AttachFace.WALL ? "_vertical" : "") +
+                            (state.getValue(BlockStateProperties.LOCKED) ? "_locked" : ""))),
+                    state -> false
+            );
+        };
+    }
+
+
     public static void linkedTransmitter(RegistrateBlockstateProvider prov, Block block, NonNullFunction<BlockState, ModelFile> baseModel, NonNullFunction<BlockState, ModelFile> moduleModel, NonNullFunction<BlockState, Boolean> uvLock) {
         MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(block);
+
+        Set<LinkedTransmitterState> processedStates = new HashSet<>();
 
         for (BlockState state : block.getStateDefinition().getPossibleStates()) {
             Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
@@ -76,17 +93,22 @@ public class CCBlockStateGen {
             boolean locked = state.getValue(BlockStateProperties.LOCKED);
             int xRot = face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180);
             int yRot = (int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot();
-            if (!locked)
-                builder.part()
-                        .modelFile(baseModel.apply(state))
-                        .rotationX(xRot)
-                        .rotationY(yRot)
-                        .uvLock(uvLock.apply(state))
-                        .addModel()
-                        .condition(BlockStateProperties.HORIZONTAL_FACING, facing)
-                        .condition(BlockStateProperties.ATTACH_FACE, face)
-                        .condition(BlockStateProperties.POWERED, powered)
-                        .end();
+            if (!locked) {
+                LinkedTransmitterState linkedTransmitterState = new LinkedTransmitterState(facing, face, powered);
+                if (!processedStates.contains(linkedTransmitterState)) {
+                    processedStates.add(linkedTransmitterState);
+                    builder.part()
+                            .modelFile(baseModel.apply(state))
+                            .rotationX(xRot)
+                            .rotationY(yRot)
+                            .uvLock(uvLock.apply(state))
+                            .addModel()
+                            .condition(BlockStateProperties.HORIZONTAL_FACING, facing)
+                            .condition(BlockStateProperties.ATTACH_FACE, face)
+                            .condition(BlockStateProperties.POWERED, powered)
+                            .end();
+                }
+            }
             builder.part()
                     .modelFile(moduleModel.apply(state))
                     .rotationX(xRot)
@@ -99,6 +121,50 @@ public class CCBlockStateGen {
                     .condition(BlockStateProperties.LOCKED, locked)
                     .end();
         }
+    }
+
+    public static void linkedTransmitterNoPower(RegistrateBlockstateProvider prov, Block block, NonNullFunction<BlockState, ModelFile> baseModel, NonNullFunction<BlockState, ModelFile> moduleModel, NonNullFunction<BlockState, Boolean> uvLock) {
+        MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(block);
+
+        Set<LinkedTransmitterState> processedStates = new HashSet<>();
+
+        for (BlockState state : block.getStateDefinition().getPossibleStates()) {
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            AttachFace face = state.getValue(BlockStateProperties.ATTACH_FACE);
+            boolean powered = state.getValue(BlockStateProperties.POWERED);
+            boolean locked = state.getValue(BlockStateProperties.LOCKED);
+            int xRot = face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180);
+            int yRot = (int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot();
+            if (!locked && !powered) {
+                LinkedTransmitterState linkedTransmitterState = new LinkedTransmitterState(facing, face, false);
+                if (!processedStates.contains(linkedTransmitterState)) {
+                    processedStates.add(linkedTransmitterState);
+                    builder.part()
+                            .modelFile(baseModel.apply(state))
+                            .rotationX(xRot)
+                            .rotationY(yRot)
+                            .uvLock(uvLock.apply(state))
+                            .addModel()
+                            .condition(BlockStateProperties.HORIZONTAL_FACING, facing)
+                            .condition(BlockStateProperties.ATTACH_FACE, face)
+                            .end();
+                }
+            }
+            builder.part()
+                    .modelFile(moduleModel.apply(state))
+                    .rotationX(xRot)
+                    .rotationY(yRot + (face == AttachFace.FLOOR ? 180 : 0))
+                    .uvLock(false)
+                    .addModel()
+                    .condition(BlockStateProperties.HORIZONTAL_FACING, facing)
+                    .condition(BlockStateProperties.ATTACH_FACE, face)
+                    .condition(BlockStateProperties.POWERED, powered)
+                    .condition(BlockStateProperties.LOCKED, locked)
+                    .end();
+        }
+    }
+
+    private record LinkedTransmitterState(Direction facing, AttachFace face, boolean powered) {
     }
 
     public static <B extends SequencedPulseGeneratorBlock> NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockstateProvider> sequencedPulseGenerator() {

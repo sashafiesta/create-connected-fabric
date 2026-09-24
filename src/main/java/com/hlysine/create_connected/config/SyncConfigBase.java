@@ -77,6 +77,12 @@ public abstract class SyncConfigBase extends ConfigBase {
         });
     }
 
+    @Environment(EnvType.CLIENT)
+    public void initClientListener() {
+        if (syncChannel != null)
+            syncChannel.initClientListener();
+    }
+
     @Override
     public void onLoad() {
         super.onLoad();

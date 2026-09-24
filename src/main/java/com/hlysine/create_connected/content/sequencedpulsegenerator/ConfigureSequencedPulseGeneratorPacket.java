@@ -37,6 +37,6 @@ public class ConfigureSequencedPulseGeneratorPacket extends BlockEntityConfigura
     protected void applySettings(SequencedPulseGeneratorBlockEntity be) {
         be.currentInstruction = -1;
         be.instructions = Instruction.deserializeAll(instructions);
-        be.sendData();
+        be.reset();
     }
 }
